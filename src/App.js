@@ -909,7 +909,7 @@ if (phone) {
           {/* List */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((c, i) => (
-              <div key={c.id} onClick={() => setSelected(c)} className="card" style={{
+              <div key={c.id} className="card" style={{ position: "relative" }}> style={{
                 cursor: "pointer", animation: `slideIn 0.3s ease ${i * 0.05}s both`,
                 border: `1px solid ${selected?.id === c.id ? "var(--neon)" : "var(--border)"}`,
                 background: selected?.id === c.id ? "rgba(200,240,65,0.05)" : "var(--card)",

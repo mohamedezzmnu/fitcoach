@@ -760,7 +760,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-   if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
+    if (email === "coach@fitpro.com" && pass === "coach123") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
@@ -810,6 +810,14 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     data.forEach(c => { p[c.id] = { workoutPlan: c.workoutPlan || "", dietPlan: c.dietPlan || "", notes: c.notes || "", progress: c.progress || "" }; });
     setPlans(p);
   }, []);
+
+  const deleteClient = (client) => {
+    if (!window.confirm(`هل أنت متأكد من حذف ${client.fullName}؟`)) return;
+    const updated = clients.filter(c => c.id !== client.id);
+    localStorage.setItem("fitcoach_clients", JSON.stringify(updated));
+    setClients(updated);
+    if (selected?.id === client.id) setSelected(null);
+  };
 
   const savePlan = async (client) => {
     setSaving(true);
@@ -879,24 +887,38 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
           {/* List */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((c, i) => (
-              <div key={c.id} onClick={() => setSelected(c)} className="card" style={{
-                cursor: "pointer", animation: `slideIn 0.3s ease ${i * 0.05}s both`,
+              <div key={c.id} className="card" style={{
+                animation: `slideIn 0.3s ease ${i * 0.05}s both`,
                 border: `1px solid ${selected?.id === c.id ? "var(--neon)" : "var(--border)"}`,
                 background: selected?.id === c.id ? "rgba(200,240,65,0.05)" : "var(--card)",
-                transition: "all 0.2s", padding: "16px 20px",
+                transition: "all 0.2s", padding: "16px 20px", position: "relative",
               }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexDirection: isAr ? "row-reverse" : "row" }}>
-                  <div style={{ textAlign: isAr ? "right" : "left" }}>
-                    <div style={{ fontFamily: isAr ? "'Cairo'" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18 }}>{c.fullName}</div>
-                    <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 2 }}>{c.age} • {c.gender} • BMI {c.bmi}</div>
+                {/* زر الحذف */}
+                <button onClick={e => { e.stopPropagation(); deleteClient(c); }} style={{
+                  position: "absolute", top: 10, left: isAr ? 10 : "auto", right: isAr ? "auto" : 10,
+                  background: "rgba(255,68,68,0.1)", border: "1px solid rgba(255,68,68,0.3)",
+                  color: "var(--danger)", borderRadius: 6, padding: "4px 10px",
+                  fontSize: 13, cursor: "pointer", fontFamily: isAr ? "'Cairo'" : "'Barlow', sans-serif",
+                  fontWeight: 700, transition: "all 0.2s",
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,68,68,0.25)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,68,68,0.1)"; }}
+                >🗑 {isAr ? "حذف" : "Delete"}</button>
+
+                <div onClick={() => setSelected(c)} style={{ cursor: "pointer" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexDirection: isAr ? "row-reverse" : "row" }}>
+                    <div style={{ textAlign: isAr ? "right" : "left" }}>
+                      <div style={{ fontFamily: isAr ? "'Cairo'" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18 }}>{c.fullName}</div>
+                      <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 2 }}>{c.age} • {c.gender} • BMI {c.bmi}</div>
+                    </div>
+                    <span className="tag" style={{ background: `${goalColors[c.fitnessGoal] || "var(--neon)"}22`, color: goalColors[c.fitnessGoal] || "var(--neon)", border: `1px solid ${goalColors[c.fitnessGoal] || "var(--neon)"}44`, fontSize: 10, marginLeft: isAr ? 0 : 60, marginRight: isAr ? 60 : 0 }}>
+                      {c.fitnessGoal}
+                    </span>
                   </div>
-                  <span className="tag" style={{ background: `${goalColors[c.fitnessGoal] || "var(--neon)"}22`, color: goalColors[c.fitnessGoal] || "var(--neon)", border: `1px solid ${goalColors[c.fitnessGoal] || "var(--neon)"}44`, fontSize: 10 }}>
-                    {c.fitnessGoal}
-                  </span>
-                </div>
-                <div style={{ display: "flex", gap: 8, marginTop: 10, justifyContent: isAr ? "flex-end" : "flex-start" }}>
-                  <span className="tag" style={{ background: "var(--bg3)", color: "var(--muted)", border: "1px solid var(--border)" }}>{c.activityLevel}</span>
-                  {plans[c.id]?.workoutPlan && <span className="tag" style={{ background: "rgba(200,240,65,0.1)", color: "var(--neon)", border: "1px solid rgba(200,240,65,0.2)" }}>{t.planReady}</span>}
+                  <div style={{ display: "flex", gap: 8, marginTop: 10, justifyContent: isAr ? "flex-end" : "flex-start" }}>
+                    <span className="tag" style={{ background: "var(--bg3)", color: "var(--muted)", border: "1px solid var(--border)" }}>{c.activityLevel}</span>
+                    {plans[c.id]?.workoutPlan && <span className="tag" style={{ background: "rgba(200,240,65,0.1)", color: "var(--neon)", border: "1px solid rgba(200,240,65,0.2)" }}>{t.planReady}</span>}
+                  </div>
                 </div>
               </div>
             ))}
