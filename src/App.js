@@ -47,6 +47,7 @@ const T = {
     joinProgram: "انضم للبرنامج",
     formDesc: "أدخل بياناتك أدناه وسيقوم الكوتش بإعداد خطة مخصصة لك بالكامل.",
     fullName: "الاسم الكامل",
+    whatsapp: "رقم الواتساب",
     namePlaceholder: "مثال: أحمد الراشد",
     age: "العمر",
     gender: "الجنس",
@@ -152,6 +153,7 @@ const T = {
     joinProgram: "Join The Program",
     formDesc: "Fill in your details below. Your coach will create a fully personalized plan just for you.",
     fullName: "Full Name",
+    whatsapp: "WhatsApp Number",
     namePlaceholder: "e.g. Ahmed Al-Rashid",
     age: "Age",
     gender: "Gender",
@@ -610,7 +612,7 @@ const HomePage = ({ setPage, t, lang }) => {
 // ─── CLIENT FORM ──────────────────────────────────────────────────────────────
 const ClientFormPage = ({ t, lang }) => {
   const isAr = lang === "ar";
-  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "" });
+  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "", whatsapp: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
@@ -680,6 +682,8 @@ const ClientFormPage = ({ t, lang }) => {
           <div className="field" style={{ gridColumn: "1 / -1" }}>
             <label className="lbl">{t.fullName}</label>
             <input placeholder={t.namePlaceholder} value={form.fullName} onChange={e => f("fullName", e.target.value)} />
+            <label className="lbl">{t.whatsapp}</label>
+            <input placeholder="01xxxxxxxxx" value={form.whatsapp} onChange={e => f("whatsapp", e.target.value)} style={{ direction: "ltr" }} />
             {errors.fullName && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.fullName}</span>}
           </div>
           {/* Age */}
