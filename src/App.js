@@ -602,7 +602,7 @@ const HomePage = ({ setPage, t, lang }) => {
         onMouseEnter={e => e.currentTarget.style.transform = "scale(1.12)"}
         onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
         title="تابعنا على انستغرام"
-      >💬</a>
+      >📸</a>
     </div>
   );
 };
