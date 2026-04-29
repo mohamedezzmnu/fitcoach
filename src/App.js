@@ -590,7 +590,6 @@ const HomePage = ({ setPage, t, lang }) => {
         onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
         title="تواصل عبر واتساب"
       >💬</a>
-      </a>
       {/* Instagram */}
       <a href="https://www.instagram.com/ehababshakour" target="_blank" rel="noreferrer" style={{
         position: "fixed", bottom: 96, left: isAr ? 28 : "auto", right: isAr ? "auto" : 28,
