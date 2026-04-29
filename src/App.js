@@ -843,6 +843,13 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setSaving(false);
     setSavedId(client.id);
     setTimeout(() => setSavedId(null), 2500);
+
+// واتساب إشعار
+const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
+if (phone) {
+  const msg = encodeURIComponent(`مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n🏋️ خطة التمرين:\n${plans[client.id]?.workoutPlan || ""}\n\n🥗 الخطة الغذائية:\n${plans[client.id]?.dietPlan || ""}\n\n📝 ملاحظات الكوتش:\n${plans[client.id]?.notes || ""}\n\n💪 وفقك الله في رحلتك!`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+}
   };
 
   const goalColors = { "إنقاص الوزن": "#ff6b2b", "بناء العضلات": "#c8f041", "لياقة عامة": "#4ecdc4", "أداء رياضي": "#a78bfa", "إعادة تشكيل الجسم": "#fb923c", "Weight Loss": "#ff6b2b", "Muscle Gain": "#c8f041", "General Fitness": "#4ecdc4", "Athletic Performance": "#a78bfa", "Body Recomposition": "#fb923c" };
