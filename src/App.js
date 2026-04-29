@@ -993,6 +993,7 @@ const Footer = ({ t, lang }) => (
       فيت كوتش <span style={{ color: "var(--neon)" }}>برو</span>
     </div>
     <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
+    <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 4 }}>تحت إشراف كابتن إيهاب أحمد</p>
   </footer>
 );
 
