@@ -773,7 +773,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-    if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
+    const hash = require("crypto-js").MD5(pass).toString(); if (email === "ehababshakour@gmail.com" && hash === "1f3b7bea74e873e9708fd096c00f5f9a") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
