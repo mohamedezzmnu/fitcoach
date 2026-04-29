@@ -994,6 +994,10 @@ const Footer = ({ t, lang }) => (
     </div>
     <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
     <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 4 }}>تحت إشراف كابتن إيهاب أحمد</p>
+    <div style={{ marginTop: 8, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+      <img src="/me-logo.jpg" alt="ME Logo" style={{ width: 32, height: 32, borderRadius: "50%", opacity: 0.7 }} />
+      <span style={{ color: "var(--muted)", fontSize: 11 }}>Developed by ME</span>
+    </div>
   </footer>
 );
 
