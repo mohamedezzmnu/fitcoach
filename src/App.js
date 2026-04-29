@@ -578,7 +578,7 @@ const HomePage = ({ setPage, t, lang }) => {
       </section>
 
       {/* WhatsApp */}
-      <a href="https://wa.me/1234567890" target="_blank" rel="noreferrer" style={{
+      <a href="https://wa.me/201063033247" target="_blank" rel="noreferrer" style={{
         position: "fixed", bottom: 28, left: isAr ? 28 : "auto", right: isAr ? "auto" : 28,
         zIndex: 200, background: "#25D366", color: "#fff",
         width: 56, height: 56, borderRadius: "50%",
