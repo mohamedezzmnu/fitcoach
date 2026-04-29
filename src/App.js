@@ -640,7 +640,7 @@ const ClientFormPage = ({ t, lang }) => {
     existing.push({ id: Date.now(), ...clientData });
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbx7OwK9tdi1QUWVeWJy1v4os0NEBW3uKWAhsIkmqzMd_zhuRNG_KgD14NickzCsLCvT/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbxh-ztZeMuTyBatnuzGjeusL5sjHssd3n2xKvAsStvwRcfpE5KD36afRFDzeRozCQk/exec", {
         method: "POST",
         body: JSON.stringify({ id: Date.now(), ...clientData }),
       });
