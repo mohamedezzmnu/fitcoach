@@ -760,7 +760,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-    if (email === "coach@fitpro.com" && pass === "coach123") { onLogin(); }
+   if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
