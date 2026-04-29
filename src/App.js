@@ -87,8 +87,8 @@ const T = {
     password: "كلمة المرور",
     accessDashboard: "دخول اللوحة ←",
     signingIn: "جاري الدخول...",
-    loginError: "بيانات غير صحيحة. تجريبي: coach@fitpro.com / coach123",
-    demo: "تجريبي: coach@fitpro.com / coach123",
+    loginError: "بيانات غير صحيحة. تجريبي: ehababshakour@gmail.com / ehabelbalad",
+    demo: "تجريبي: ehababshakour@gmail.com / ehabelbalad",
     // Dashboard
     coachPortal: "بوابة الكوتش",
     clientDashboard: "لوحة العملاء",
@@ -189,8 +189,8 @@ const T = {
     password: "Password",
     accessDashboard: "Access Dashboard →",
     signingIn: "Signing In...",
-    loginError: "Invalid credentials. Demo: coach@fitpro.com / coach123",
-    demo: "Demo: coach@fitpro.com / coach123",
+    loginError: "Invalid credentials. Demo: ehababshakour@gmail.com / ehabelbalad",
+    demo: "Demo: ehababshakour@gmail.com / ehabelbalad",
     coachPortal: "Coach Portal",
     clientDashboard: "Client Dashboard",
     totalClients: "Total Clients",
@@ -760,7 +760,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-    if (email === "coach@fitpro.com" && pass === "coach123") { onLogin(); }
+    if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
@@ -777,7 +777,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
       <div className="card">
         <div className="field">
           <label className="lbl">{t.email}</label>
-          <input type="email" placeholder="coach@fitpro.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} style={{ direction: "ltr" }} />
+          <input type="email" placeholder="ehababshakour@gmail.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} style={{ direction: "ltr" }} />
         </div>
         <div className="field">
           <label className="lbl">{t.password}</label>
