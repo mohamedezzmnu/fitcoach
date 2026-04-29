@@ -578,7 +578,7 @@ const HomePage = ({ setPage, t, lang }) => {
       </section>
 
       {/* WhatsApp */}
-      <a href="https://wa.me/1234567890" target="_blank" rel="noreferrer" style={{
+      <a href="https://wa.me/201063033247" target="_blank" rel="noreferrer" style={{
         position: "fixed", bottom: 28, left: isAr ? 28 : "auto", right: isAr ? "auto" : 28,
         zIndex: 200, background: "#25D366", color: "#fff",
         width: 56, height: 56, borderRadius: "50%",
@@ -966,8 +966,38 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 const Footer = ({ t, lang }) => (
   <footer style={{ borderTop: "1px solid var(--border)", padding: "32px 5vw", textAlign: "center" }}>
-    <div style={{ fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: lang === "ar" ? 0 : 2, marginBottom: 8 }}>
+    <div style={{ fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: lang === "ar" ? 0 : 2, marginBottom: 16 }}>
       فيت كوتش <span style={{ color: "var(--neon)" }}>برو</span>
+    </div>
+    {/* Social Links */}
+    <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
+      <a href="https://wa.me/201063033247" target="_blank" rel="noreferrer" style={{
+        display: "flex", alignItems: "center", gap: 8,
+        background: "#25D366", color: "#fff",
+        padding: "8px 18px", borderRadius: 20,
+        textDecoration: "none", fontSize: 13, fontWeight: 700,
+        fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow', sans-serif",
+        transition: "transform 0.2s, opacity 0.2s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+      >
+        💬 {lang === "ar" ? "تواصل واتساب" : "WhatsApp"}
+      </a>
+      <a href="https://www.instagram.com/ehababshakour" target="_blank" rel="noreferrer" style={{
+        display: "flex", alignItems: "center", gap: 8,
+        background: "linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
+        color: "#fff",
+        padding: "8px 18px", borderRadius: 20,
+        textDecoration: "none", fontSize: 13, fontWeight: 700,
+        fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow', sans-serif",
+        transition: "opacity 0.2s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+      >
+        📸 {lang === "ar" ? "انستغرام" : "Instagram"} @ehababshakour
+      </a>
     </div>
     <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
   </footer>
