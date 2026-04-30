@@ -672,7 +672,7 @@ const ClientFormPage = ({ t, lang }) => {
           {/* Phone / WhatsApp */}
           <div className="field" style={{ gridColumn: "1 / -1" }}>
             <label className="lbl">📱 {isAr ? "رقم الواتساب" : "WhatsApp Number"}</label>
-            <input type="tel" placeholder={isAr ? "مثال: 01012345678" : "e.g. 01012345678"} value={form.phone} onChange={e => f("phone", e.target.value)} style={{ direction: "ltr" }} />
+            <input type="tel" placeholder={isAr ? "مثال: 01012345678" : "e.g. 01012345678"} value={form.phone} onChange={e => { let v = e.target.value.replace(/[^0-9]/g, ""); if (v.startsWith("0")) v = "20" + v.slice(1); f("phone", v); }} style={{ direction: "ltr" }} />
             {errors.phone && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.phone}</span>}
           </div>
           {/* Age */}
