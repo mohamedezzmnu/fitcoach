@@ -851,18 +851,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setSavedId(client.id);
     setTimeout(() => setSavedId(null), 2500);
 
-    // إشعار واتساب للعميل
-    const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
-    if (phone) {
-      const msg = encodeURIComponent(
-        `مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
-        `🏋️ خطة التمرين:\n${plans[client.id]?.workoutPlan || ""}\n\n` +
-        `🥗 الخطة الغذائية:\n${plans[client.id]?.dietPlan || ""}\n\n` +
-        `📝 ملاحظات الكوتش:\n${plans[client.id]?.notes || ""}\n\n` +
-        `💪 وفقك الله في رحلتك! 🔥`
-      );
-      window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-    }
+
   };
 
   const goalColors = { "إنقاص الوزن": "#ff6b2b", "بناء العضلات": "#c8f041", "لياقة عامة": "#4ecdc4", "أداء رياضي": "#a78bfa", "إعادة تشكيل الجسم": "#fb923c", "Weight Loss": "#ff6b2b", "Muscle Gain": "#c8f041", "General Fitness": "#4ecdc4", "Athletic Performance": "#a78bfa", "Body Recomposition": "#fb923c" };
@@ -1011,6 +1000,22 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                     </span>
                   ) : savedId === selected.id ? t.saved : t.savePlan}
                 </button>
+                {selected.phone && (
+                  <button className="ghost-btn" style={{ width: "100%", padding: 14, marginTop: 8, background: "#25D366", color: "#fff", border: "none" }}
+                    onClick={() => {
+                      const phone = selected.phone.replace(/[^0-9]/g, "");
+                      const msg = encodeURIComponent(
+                        `مرحباً ${selected.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
+                        `🏋️ خطة التمرين:\n${plans[selected.id]?.workoutPlan || ""}\n\n` +
+                        `🥗 الخطة الغذائية:\n${plans[selected.id]?.dietPlan || ""}\n\n` +
+                        `📝 ملاحظات الكوتش:\n${plans[selected.id]?.notes || ""}\n\n` +
+                        `💪 وفقك الله في رحلتك! 🔥`
+                      );
+                      window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+                    }}>
+                    📲 إرسال للعميل عبر واتساب
+                  </button>
+                )}
               </div>
             </div>
           )}
