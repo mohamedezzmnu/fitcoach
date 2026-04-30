@@ -87,8 +87,8 @@ const T = {
     password: "كلمة المرور",
     accessDashboard: "دخول اللوحة ←",
     signingIn: "جاري الدخول...",
-    loginError: "بيانات غير صحيحة. تجريبي: coach@fitpro.com / coach123",
-    demo: "تجريبي: coach@fitpro.com / coach123",
+    loginError: "بيانات غير صحيحة",
+    demo: "",
     // Dashboard
     coachPortal: "بوابة الكوتش",
     clientDashboard: "لوحة العملاء",
@@ -189,8 +189,8 @@ const T = {
     password: "Password",
     accessDashboard: "Access Dashboard →",
     signingIn: "Signing In...",
-    loginError: "Invalid credentials. Demo: coach@fitpro.com / coach123",
-    demo: "Demo: coach@fitpro.com / coach123",
+    loginError: "Invalid credentials",
+    demo: "",
     coachPortal: "Coach Portal",
     clientDashboard: "Client Dashboard",
     totalClients: "Total Clients",
@@ -597,7 +597,7 @@ const HomePage = ({ setPage, t, lang }) => {
 // ─── CLIENT FORM ──────────────────────────────────────────────────────────────
 const ClientFormPage = ({ t, lang }) => {
   const isAr = lang === "ar";
-  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "" });
+  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
@@ -611,6 +611,7 @@ const ClientFormPage = ({ t, lang }) => {
     if (!form.gender) e.gender = t.errRequired;
     if (!form.fitnessGoal) e.fitnessGoal = t.errRequired;
     if (!form.activityLevel) e.activityLevel = t.errRequired;
+    if (!form.phone.trim()) e.phone = t.errRequired;
     return e;
   };
 
@@ -662,6 +663,12 @@ const ClientFormPage = ({ t, lang }) => {
             <label className="lbl">{t.fullName}</label>
             <input placeholder={t.namePlaceholder} value={form.fullName} onChange={e => f("fullName", e.target.value)} />
             {errors.fullName && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.fullName}</span>}
+          </div>
+          {/* Phone / WhatsApp */}
+          <div className="field" style={{ gridColumn: "1 / -1" }}>
+            <label className="lbl">📱 {isAr ? "رقم الواتساب" : "WhatsApp Number"}</label>
+            <input type="tel" placeholder={isAr ? "مثال: 01012345678" : "e.g. 01012345678"} value={form.phone} onChange={e => f("phone", e.target.value)} style={{ direction: "ltr" }} />
+            {errors.phone && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.phone}</span>}
           </div>
           {/* Age */}
           <div className="field">
@@ -760,7 +767,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-    if (email === "coach@fitpro.com" && pass === "coach123") { onLogin(); }
+    if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
@@ -812,7 +819,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
   }, []);
 
   const deleteClient = (client) => {
-    if (!window.confirm(`هل أنت متأكد من حذف ${client.fullName}؟`)) return;
+    if (!window.confirm(isAr ? `هل أنت متأكد من حذف ${client.fullName}؟` : `Are you sure you want to delete ${client.fullName}?`)) return;
     const updated = clients.filter(c => c.id !== client.id);
     localStorage.setItem("fitcoach_clients", JSON.stringify(updated));
     setClients(updated);
@@ -828,6 +835,19 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setSaving(false);
     setSavedId(client.id);
     setTimeout(() => setSavedId(null), 2500);
+
+    // إشعار واتساب للعميل
+    const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
+    if (phone) {
+      const msg = encodeURIComponent(
+        `مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
+        `🏋️ خطة التمرين:\n${plans[client.id]?.workoutPlan || ""}\n\n` +
+        `🥗 الخطة الغذائية:\n${plans[client.id]?.dietPlan || ""}\n\n` +
+        `📝 ملاحظات الكوتش:\n${plans[client.id]?.notes || ""}\n\n` +
+        `💪 وفقك الله في رحلتك! 🔥`
+      );
+      window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+    }
   };
 
   const goalColors = { "إنقاص الوزن": "#ff6b2b", "بناء العضلات": "#c8f041", "لياقة عامة": "#4ecdc4", "أداء رياضي": "#a78bfa", "إعادة تشكيل الجسم": "#fb923c", "Weight Loss": "#ff6b2b", "Muscle Gain": "#c8f041", "General Fitness": "#4ecdc4", "Athletic Performance": "#a78bfa", "Body Recomposition": "#fb923c" };
