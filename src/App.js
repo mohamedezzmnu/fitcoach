@@ -625,7 +625,12 @@ const ClientFormPage = ({ t, lang }) => {
     const existing = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
     existing.push({ id: Date.now(), ...clientData });
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
-    await new Promise(r => setTimeout(r, 1200));
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbxh-ztZeMuTyBatnuzGjeusL5sjHssd3n2xKvAsStvwRcfpE5KD36afRFDzeRozCQk/exec", {
+        method: "POST",
+        body: JSON.stringify({ id: Date.now(), ...clientData }),
+      });
+    } catch(err) { console.error("Sheet error", err); }
     setLoading(false);
     setSuccess(true);
   };
