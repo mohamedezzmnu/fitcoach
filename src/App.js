@@ -626,7 +626,7 @@ const ClientFormPage = ({ t, lang }) => {
     existing.push({ id: Date.now(), ...clientData });
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbxh-ztZeMuTyBatnuzGjeusL5sjHssd3n2xKvAsStvwRcfpE5KD36afRFDzeRozCQk/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbyYNNY1vznZcSQvq2Tb8l7lYTsi-287j6oVNsP3k25PA68cVeIIEC3VrXizLAgKP69Z/exec", {
         method: "POST",
         body: JSON.stringify({ id: Date.now(), ...clientData }),
       });
@@ -816,11 +816,21 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    const data = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
-    setClients(data);
-    const p = {};
-    data.forEach(c => { p[c.id] = { workoutPlan: c.workoutPlan || "", dietPlan: c.dietPlan || "", notes: c.notes || "", progress: c.progress || "" }; });
-    setPlans(p);
+    fetch("https://script.google.com/macros/s/AKfycbyYNNY1vznZcSQvq2Tb8l7lYTsi-287j6oVNsP3k25PA68cVeIIEC3VrXizLAgKP69Z/exec")
+      .then(r => r.json())
+      .then(data => {
+        setClients(data);
+        const p = {};
+        data.forEach(c => { p[c.id] = { workoutPlan: c.workoutPlan || "", dietPlan: c.dietPlan || "", notes: c.notes || "", progress: c.progress || "" }; });
+        setPlans(p);
+      })
+      .catch(() => {
+        const data = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
+        setClients(data);
+        const p = {};
+        data.forEach(c => { p[c.id] = { workoutPlan: c.workoutPlan || "", dietPlan: c.dietPlan || "", notes: c.notes || "", progress: c.progress || "" }; });
+        setPlans(p);
+      });
   }, []);
 
   const deleteClient = (client) => {
