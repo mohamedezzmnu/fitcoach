@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+ 
 // ─── TRANSLATIONS ─────────────────────────────────────────────────────────────
 const T = {
   ar: {
@@ -215,34 +215,34 @@ const T = {
     rights: "All rights reserved.",
   },
 };
-
+ 
 // ─── GLOBAL STYLES ────────────────────────────────────────────────────────────
 const GlobalStyle = ({ lang }) => (
   <style>{`
     @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@300;400;500;600&display=swap');
-
+ 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
+ 
     :root {
       --bg: #0a0a0a; --bg2: #111; --bg3: #1a1a1a; --card: #141414;
       --border: #222; --neon: #c8f041; --neon2: #a8d020;
       --neon-glow: rgba(200,240,65,0.18); --text: #f0f0f0;
       --muted: #666; --danger: #ff4444;
     }
-
+ 
     html { scroll-behavior: smooth; }
-
+ 
     body {
       background: var(--bg); color: var(--text);
       font-family: ${lang === "ar" ? "'Cairo'" : "'Barlow'"}, sans-serif;
       font-weight: 400; min-height: 100vh; overflow-x: hidden;
       direction: ${lang === "ar" ? "rtl" : "ltr"};
     }
-
+ 
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 3px; }
-
+ 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(28px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -269,9 +269,9 @@ const GlobalStyle = ({ lang }) => (
       from { opacity: 0; transform: scale(0.96); }
       to   { opacity: 1; transform: scale(1); }
     }
-
+ 
     .page-wrap { animation: langSwitch 0.3s ease; }
-
+ 
     input, select, textarea {
       background: var(--bg3); border: 1.5px solid var(--border);
       color: var(--text); border-radius: 6px; padding: 12px 14px;
@@ -287,7 +287,7 @@ const GlobalStyle = ({ lang }) => (
     }
     select option { background: #1a1a1a; }
     button { cursor: pointer; border: none; outline: none; }
-
+ 
     .neon-btn {
       background: var(--neon); color: #000;
       font-family: ${lang === "ar" ? "'Cairo'" : "'Barlow Condensed'"}, sans-serif;
@@ -303,7 +303,7 @@ const GlobalStyle = ({ lang }) => (
     }
     .neon-btn:active { transform: translateY(0); }
     .neon-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
+ 
     .ghost-btn {
       background: transparent; color: var(--neon);
       border: 1.5px solid var(--neon);
@@ -314,7 +314,7 @@ const GlobalStyle = ({ lang }) => (
       padding: 10px 22px; border-radius: 6px; transition: all 0.2s;
     }
     .ghost-btn:hover { background: var(--neon-glow); box-shadow: 0 0 16px var(--neon-glow); }
-
+ 
     .lbl {
       font-family: ${lang === "ar" ? "'Cairo'" : "'Barlow Condensed'"}, sans-serif;
       font-weight: 700; font-size: ${lang === "ar" ? "13px" : "12px"};
@@ -333,14 +333,14 @@ const GlobalStyle = ({ lang }) => (
       font-family: ${lang === "ar" ? "'Cairo'" : "'Barlow Condensed'"}, sans-serif;
       letter-spacing: ${lang === "ar" ? "0" : "1px"};
     }
-
+ 
     @media (max-width: 700px) {
       .desktop-nav { display: none !important; }
       .burger { display: block !important; }
     }
   `}</style>
 );
-
+ 
 // ─── LANG TOGGLE ──────────────────────────────────────────────────────────────
 const LangToggle = ({ lang, setLang }) => (
   <button onClick={() => setLang(l => l === "ar" ? "en" : "ar")} style={{
@@ -357,7 +357,7 @@ const LangToggle = ({ lang, setLang }) => (
     {lang === "ar" ? "English" : "عربي"}
   </button>
 );
-
+ 
 // ─── TICKER ───────────────────────────────────────────────────────────────────
 const Ticker = ({ t }) => {
   const doubled = [...t.ticker, ...t.ticker];
@@ -375,25 +375,25 @@ const Ticker = ({ t }) => {
     </div>
   );
 };
-
+ 
 // ─── NAVBAR ───────────────────────────────────────────────────────────────────
 const Navbar = ({ page, setPage, lang, setLang, t }) => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const isAr = lang === "ar";
-
+ 
   useEffect(() => {
     const fn = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", fn);
     return () => window.removeEventListener("scroll", fn);
   }, []);
-
+ 
   const links = [
     { label: t.home, key: "home" },
     { label: t.join, key: "client" },
     { label: t.coachPanel, key: "coach" },
   ];
-
+ 
   return (
     <nav style={{
       position: "sticky", top: 0, zIndex: 100,
@@ -417,7 +417,7 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
             فيت كوتش <span style={{ color: "var(--neon)" }}>برو</span>
           </span>
         </div>
-
+ 
         {/* Desktop */}
         <div className="desktop-nav" style={{ display: "flex", gap: 6, alignItems: "center" }}>
           {links.map(l => (
@@ -438,7 +438,7 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
             {t.startNow}
           </button>
         </div>
-
+ 
         {/* Mobile */}
         <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
           <div className="mobile-lang" style={{ display: "none" }}><LangToggle lang={lang} setLang={setLang} /></div>
@@ -449,7 +449,7 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
           }}>☰</button>
         </div>
       </div>
-
+ 
       {menuOpen && (
         <div style={{ borderTop: "1px solid var(--border)", padding: "16px 5vw", background: "var(--bg2)" }}>
           {links.map(l => (
@@ -464,7 +464,7 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
           ))}
         </div>
       )}
-
+ 
       <style>{`
         @media (max-width: 700px) {
           .mobile-lang { display: block !important; }
@@ -474,7 +474,7 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
     </nav>
   );
 };
-
+ 
 // ─── HOME PAGE ────────────────────────────────────────────────────────────────
 const HomePage = ({ setPage, t, lang }) => {
   const isAr = lang === "ar";
@@ -498,7 +498,7 @@ const HomePage = ({ setPage, t, lang }) => {
                 color: "var(--neon)",
               }}>{t.badge}</span>
             </div>
-
+ 
             <h1 style={{
               fontFamily: isAr ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif",
               fontWeight: 900, lineHeight: isAr ? 1.2 : 0.92,
@@ -513,11 +513,11 @@ const HomePage = ({ setPage, t, lang }) => {
                 {t.heroLine3}
               </span>
             </h1>
-
+ 
             <p style={{ maxWidth: 520, color: "var(--muted)", fontSize: 16, lineHeight: 1.8, marginBottom: 40, textAlign: isAr ? "right" : "left" }}>
               {t.heroDesc}
             </p>
-
+ 
             <div style={{ display: "flex", gap: 14, flexWrap: "wrap", justifyContent: isAr ? "flex-end" : "flex-start" }}>
               <button className="neon-btn" style={{ fontSize: 16 }} onClick={() => setPage("client")}>{t.beginJourney}</button>
               <button className="ghost-btn" style={{ fontSize: 15, padding: "13px 28px" }} onClick={() => setPage("client")}>{t.learnMore}</button>
@@ -525,7 +525,7 @@ const HomePage = ({ setPage, t, lang }) => {
           </div>
         </div>
       </section>
-
+ 
       {/* Stats */}
       <section style={{ padding: "40px 5vw", borderTop: "1px solid var(--border)", borderBottom: "1px solid var(--border)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
@@ -537,7 +537,7 @@ const HomePage = ({ setPage, t, lang }) => {
           ))}
         </div>
       </section>
-
+ 
       {/* Services */}
       <section style={{ padding: "80px 5vw" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
@@ -561,7 +561,7 @@ const HomePage = ({ setPage, t, lang }) => {
           </div>
         </div>
       </section>
-
+ 
       {/* CTA Banner */}
       <section style={{ padding: "60px 5vw", margin: "0 5vw 80px", background: "var(--card)", border: "1px solid var(--border)", borderRadius: 16 }}>
         <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: 24, flexDirection: isAr ? "row-reverse" : "row" }}>
@@ -576,7 +576,7 @@ const HomePage = ({ setPage, t, lang }) => {
           </button>
         </div>
       </section>
-
+ 
       {/* WhatsApp */}
       <a href="https://wa.me/201063033247" target="_blank" rel="noreferrer" style={{
         position: "fixed", bottom: 28, left: isAr ? 28 : "auto", right: isAr ? "auto" : 28,
@@ -593,7 +593,7 @@ const HomePage = ({ setPage, t, lang }) => {
     </div>
   );
 };
-
+ 
 // ─── CLIENT FORM ──────────────────────────────────────────────────────────────
 const ClientFormPage = ({ t, lang }) => {
   const isAr = lang === "ar";
@@ -601,7 +601,7 @@ const ClientFormPage = ({ t, lang }) => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
-
+ 
   const validate = () => {
     const e = {};
     if (!form.fullName.trim()) e.fullName = t.errRequired;
@@ -614,7 +614,7 @@ const ClientFormPage = ({ t, lang }) => {
     if (!form.phone.trim()) e.phone = t.errRequired;
     return e;
   };
-
+ 
   const handleSubmit = async () => {
     const e = validate();
     if (Object.keys(e).length) { setErrors(e); return; }
@@ -622,16 +622,27 @@ const ClientFormPage = ({ t, lang }) => {
     setLoading(true);
     const bmi = (form.weight / Math.pow(form.height / 100, 2)).toFixed(1);
     const clientData = { ...form, bmi, submittedAt: new Date().toISOString(), workoutPlan: "", dietPlan: "", notes: "", progress: "" };
+    const newClient = { id: Date.now(), ...clientData };
     const existing = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
-    existing.push({ id: Date.now(), ...clientData });
+    existing.push(newClient);
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
-    await new Promise(r => setTimeout(r, 1200));
+ 
+    // إرسال لـ Google Sheets
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbyUdH4c8c0REIO96FPXhw3BAcLDJG3qNS1VFXrKHwSKZ6jD87dDIERj0e6fAXB4frRa/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(newClient),
+      });
+    } catch (err) { console.log("Sheets error:", err); }
+ 
     setLoading(false);
     setSuccess(true);
   };
-
+ 
   const f = (key, val) => { setForm(p => ({ ...p, [key]: val })); if (errors[key]) setErrors(p => ({ ...p, [key]: "" })); };
-
+ 
   if (success) return (
     <div className="page-wrap" style={{ maxWidth: 520, margin: "120px auto", textAlign: "center", padding: "0 5vw", animation: "fadeUp 0.5s ease" }}>
       <div style={{ width: 90, height: 90, borderRadius: "50%", background: "var(--neon-glow)", border: "2px solid var(--neon)", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto 24px", fontSize: 40, animation: "checkmark 0.5s ease" }}>✓</div>
@@ -645,7 +656,7 @@ const ClientFormPage = ({ t, lang }) => {
       <button className="ghost-btn" style={{ marginTop: 32 }} onClick={() => setSuccess(false)}>{t.submitAnother}</button>
     </div>
   );
-
+ 
   return (
     <div className="page-wrap" style={{ maxWidth: 680, margin: "0 auto", padding: "60px 5vw 80px" }}>
       <div style={{ marginBottom: 40, animation: "fadeUp 0.5s ease", textAlign: isAr ? "right" : "left" }}>
@@ -655,7 +666,7 @@ const ClientFormPage = ({ t, lang }) => {
         </h1>
         <p style={{ color: "var(--muted)", marginTop: 10, lineHeight: 1.7 }}>{t.formDesc}</p>
       </div>
-
+ 
       <div className="card" style={{ animation: "fadeUp 0.6s ease 0.1s both" }}>
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
           {/* Full Name */}
@@ -728,7 +739,7 @@ const ClientFormPage = ({ t, lang }) => {
             {errors.activityLevel && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.activityLevel}</span>}
           </div>
         </div>
-
+ 
         {/* BMI Preview */}
         {form.weight && form.height && (
           <div style={{ padding: "14px 16px", background: "var(--bg3)", border: "1px solid var(--border)", borderRadius: 8, marginBottom: 20, display: "flex", gap: 20, flexWrap: "wrap", flexDirection: isAr ? "row-reverse" : "row" }}>
@@ -741,7 +752,7 @@ const ClientFormPage = ({ t, lang }) => {
             <div style={{ display: "flex", alignItems: "center", color: "var(--muted)", fontSize: 13 }}>{t.bmiNote}</div>
           </div>
         )}
-
+ 
         <button className="neon-btn" style={{ width: "100%", fontSize: 16, padding: "15px" }} onClick={handleSubmit} disabled={loading}>
           {loading ? (
             <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 10 }}>
@@ -754,7 +765,7 @@ const ClientFormPage = ({ t, lang }) => {
     </div>
   );
 };
-
+ 
 // ─── COACH LOGIN ──────────────────────────────────────────────────────────────
 const CoachLogin = ({ onLogin, t, lang }) => {
   const isAr = lang === "ar";
@@ -762,7 +773,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
   const [pass, setPass] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+ 
   const handleLogin = async () => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
@@ -771,7 +782,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     else { setError(t.loginError); }
     setLoading(false);
   };
-
+ 
   return (
     <div className="page-wrap" style={{ maxWidth: 400, margin: "100px auto", padding: "0 5vw", animation: "fadeUp 0.5s ease" }}>
       <div style={{ textAlign: "center", marginBottom: 32 }}>
@@ -799,7 +810,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     </div>
   );
 };
-
+ 
 // ─── COACH DASHBOARD ──────────────────────────────────────────────────────────
 const CoachDashboard = ({ onLogout, t, lang }) => {
   const isAr = lang === "ar";
@@ -809,7 +820,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
   const [saving, setSaving] = useState(false);
   const [savedId, setSavedId] = useState(null);
   const [filter, setFilter] = useState("all");
-
+ 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
     setClients(data);
@@ -817,7 +828,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     data.forEach(c => { p[c.id] = { workoutPlan: c.workoutPlan || "", dietPlan: c.dietPlan || "", notes: c.notes || "", progress: c.progress || "" }; });
     setPlans(p);
   }, []);
-
+ 
   const deleteClient = (client) => {
     if (!window.confirm(isAr ? `هل أنت متأكد من حذف ${client.fullName}؟` : `Are you sure you want to delete ${client.fullName}?`)) return;
     const updated = clients.filter(c => c.id !== client.id);
@@ -825,7 +836,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setClients(updated);
     if (selected?.id === client.id) setSelected(null);
   };
-
+ 
   const savePlan = async (client) => {
     setSaving(true);
     const updated = clients.map(c => c.id === client.id ? { ...c, ...plans[client.id] } : c);
@@ -835,9 +846,24 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setSaving(false);
     setSavedId(client.id);
     setTimeout(() => setSavedId(null), 2500);
-
+ 
+    // تحديث Google Sheets
+    try {
+      await fetch("https://script.google.com/macros/s/AKfycbyUdH4c8c0REIO96FPXhw3BAcLDJG3qNS1VFXrKHwSKZ6jD87dDIERj0e6fAXB4frRa/exec", {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          action: "update",
+          id: client.id,
+          ...plans[client.id],
+        }),
+      });
+    } catch (err) { console.log("Sheets update error:", err); }
+ 
     // إشعار واتساب للعميل
-    const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
+    const rawPhone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
+    const phone = rawPhone.startsWith("0") ? "20" + rawPhone.slice(1) : rawPhone;
     if (phone) {
       const msg = encodeURIComponent(
         `مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
@@ -849,12 +875,12 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
       window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
     }
   };
-
+ 
   const goalColors = { "إنقاص الوزن": "#ff6b2b", "بناء العضلات": "#c8f041", "لياقة عامة": "#4ecdc4", "أداء رياضي": "#a78bfa", "إعادة تشكيل الجسم": "#fb923c", "Weight Loss": "#ff6b2b", "Muscle Gain": "#c8f041", "General Fitness": "#4ecdc4", "Athletic Performance": "#a78bfa", "Body Recomposition": "#fb923c" };
-
+ 
   const allGoals = [...new Set(clients.map(c => c.fitnessGoal))];
   const filtered = filter === "all" ? clients : clients.filter(c => c.fitnessGoal === filter);
-
+ 
   return (
     <div className="page-wrap" style={{ maxWidth: 1200, margin: "0 auto", padding: "40px 5vw 80px" }}>
       {/* Header */}
@@ -873,7 +899,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
           <button className="ghost-btn" onClick={onLogout}>{t.logout}</button>
         </div>
       </div>
-
+ 
       {/* Filters */}
       <div style={{ display: "flex", gap: 8, marginBottom: 24, flexWrap: "wrap", justifyContent: isAr ? "flex-end" : "flex-start" }}>
         <button onClick={() => setFilter("all")} style={{
@@ -895,7 +921,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
           }}>{g}</button>
         ))}
       </div>
-
+ 
       {clients.length === 0 ? (
         <div className="card" style={{ textAlign: "center", padding: "60px 24px" }}>
           <div style={{ fontSize: 48, marginBottom: 16 }}>📋</div>
@@ -924,7 +950,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                   onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,68,68,0.25)"; }}
                   onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,68,68,0.1)"; }}
                 >🗑 {isAr ? "حذف" : "Delete"}</button>
-
+ 
                 <div onClick={() => setSelected(c)} style={{ cursor: "pointer" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexDirection: isAr ? "row-reverse" : "row" }}>
                     <div style={{ textAlign: isAr ? "right" : "left" }}>
@@ -943,7 +969,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
               </div>
             ))}
           </div>
-
+ 
           {/* Detail */}
           {selected && (
             <div style={{ animation: "fadeUp 0.3s ease" }}>
@@ -957,7 +983,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                   </div>
                   <button onClick={() => setSelected(null)} style={{ background: "none", border: "1px solid var(--border)", color: "var(--muted)", padding: "6px 14px", borderRadius: 6, cursor: "pointer", fontSize: 18 }}>×</button>
                 </div>
-
+ 
                 {/* Stats */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(90px, 1fr))", gap: 10, marginBottom: 24 }}>
                   {t.statsLabels.map((label, i) => {
@@ -971,12 +997,12 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                     );
                   })}
                 </div>
-
+ 
                 <div style={{ padding: "10px 14px", background: "rgba(200,240,65,0.07)", border: "1px solid rgba(200,240,65,0.2)", borderRadius: 8, marginBottom: 24, textAlign: isAr ? "right" : "left" }}>
                   <span style={{ fontFamily: isAr ? "'Cairo'" : "'Barlow Condensed', sans-serif", fontWeight: 700, fontSize: 13, color: "var(--neon)" }}>{t.goalLabel} </span>
                   <span style={{ fontSize: 14 }}>{selected.fitnessGoal}</span>
                 </div>
-
+ 
                 {/* Plan fields */}
                 {t.planFields.map(field => (
                   <div key={field.key} className="field">
@@ -987,7 +1013,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                     />
                   </div>
                 ))}
-
+ 
                 <button className="neon-btn" style={{ width: "100%", padding: 14 }} onClick={() => savePlan(selected)} disabled={saving}>
                   {saving ? (
                     <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
@@ -1004,7 +1030,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     </div>
   );
 };
-
+ 
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 const Footer = ({ t, lang }) => (
   <footer style={{ borderTop: "1px solid var(--border)", padding: "32px 5vw", textAlign: "center" }}>
@@ -1044,16 +1070,16 @@ const Footer = ({ t, lang }) => (
     <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
   </footer>
 );
-
+ 
 // ─── ROOT APP ─────────────────────────────────────────────────────────────────
 export default function App() {
   const [lang, setLang] = useState("ar"); // العربية لغة افتراضية
   const [page, setPage] = useState("home");
   const [coachLoggedIn, setCoachLoggedIn] = useState(false);
   const t = T[lang];
-
+ 
   useEffect(() => { window.scrollTo({ top: 0, behavior: "smooth" }); }, [page]);
-
+ 
   const renderPage = () => {
     if (page === "home") return <HomePage setPage={setPage} t={t} lang={lang} />;
     if (page === "client") return <ClientFormPage t={t} lang={lang} />;
@@ -1061,8 +1087,9 @@ export default function App() {
       if (!coachLoggedIn) return <CoachLogin onLogin={() => setCoachLoggedIn(true)} t={t} lang={lang} />;
       return <CoachDashboard onLogout={() => { setCoachLoggedIn(false); setPage("home"); }} t={t} lang={lang} />;
     }
+    return <HomePage setPage={setPage} t={t} lang={lang} />;
   };
-
+ 
   return (
     <>
       <GlobalStyle lang={lang} />
@@ -1073,3 +1100,4 @@ export default function App() {
     </>
   );
 }
+ 
