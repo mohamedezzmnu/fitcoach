@@ -1003,7 +1003,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
                 {selected.phone && (
                   <button className="ghost-btn" style={{ width: "100%", padding: 14, marginTop: 8, background: "#25D366", color: "#fff", border: "none" }}
                     onClick={() => {
-                      const phone = selected.phone.replace(/[^0-9]/g, "");
+                      console.log("phone:", selected.phone); const phone = selected.phone.replace(/[^0-9]/g, "");
                       const msg = encodeURIComponent(
                         `مرحباً ${selected.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
                         `🏋️ خطة التمرين:\n${plans[selected.id]?.workoutPlan || ""}\n\n` +
