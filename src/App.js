@@ -47,7 +47,6 @@ const T = {
     joinProgram: "انضم للبرنامج",
     formDesc: "أدخل بياناتك أدناه وسيقوم الكوتش بإعداد خطة مخصصة لك بالكامل.",
     fullName: "الاسم الكامل",
-    whatsapp: "رقم الواتساب",
     namePlaceholder: "مثال: أحمد الراشد",
     age: "العمر",
     gender: "الجنس",
@@ -153,7 +152,6 @@ const T = {
     joinProgram: "Join The Program",
     formDesc: "Fill in your details below. Your coach will create a fully personalized plan just for you.",
     fullName: "Full Name",
-    whatsapp: "WhatsApp Number",
     namePlaceholder: "e.g. Ahmed Al-Rashid",
     age: "Age",
     gender: "Gender",
@@ -191,7 +189,7 @@ const T = {
     password: "Password",
     accessDashboard: "Access Dashboard →",
     signingIn: "Signing In...",
-    loginError: "Invalid credentials. Demo: ehababshakour@gmail.com / ehabelbalad",
+    loginError: "Invalid credentials",
     demo: "",
     coachPortal: "Coach Portal",
     clientDashboard: "Client Dashboard",
@@ -592,19 +590,6 @@ const HomePage = ({ setPage, t, lang }) => {
         onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
         title="تواصل عبر واتساب"
       >💬</a>
-      {/* Instagram */}
-      <a href="https://www.instagram.com/ehababshakour" target="_blank" rel="noreferrer" style={{
-        position: "fixed", bottom: 96, left: isAr ? 28 : "auto", right: isAr ? "auto" : 28,
-        zIndex: 200, background: "linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)", color: "#fff",
-        width: 56, height: 56, borderRadius: "50%",
-        display: "flex", alignItems: "center", justifyContent: "center",
-        fontSize: 26, boxShadow: "0 4px 20px rgba(220,39,67,0.4)",
-        textDecoration: "none", transition: "transform 0.2s",
-      }}
-        onMouseEnter={e => e.currentTarget.style.transform = "scale(1.12)"}
-        onMouseLeave={e => e.currentTarget.style.transform = "scale(1)"}
-        title="تابعنا على انستغرام"
-      >📸</a>
     </div>
   );
 };
@@ -612,7 +597,7 @@ const HomePage = ({ setPage, t, lang }) => {
 // ─── CLIENT FORM ──────────────────────────────────────────────────────────────
 const ClientFormPage = ({ t, lang }) => {
   const isAr = lang === "ar";
-  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "", whatsapp: "" });
+  const [form, setForm] = useState({ fullName: "", age: "", weight: "", height: "", gender: "", fitnessGoal: "", activityLevel: "", phone: "" });
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [errors, setErrors] = useState({});
@@ -626,6 +611,7 @@ const ClientFormPage = ({ t, lang }) => {
     if (!form.gender) e.gender = t.errRequired;
     if (!form.fitnessGoal) e.fitnessGoal = t.errRequired;
     if (!form.activityLevel) e.activityLevel = t.errRequired;
+    if (!form.phone.trim()) e.phone = t.errRequired;
     return e;
   };
 
@@ -639,12 +625,6 @@ const ClientFormPage = ({ t, lang }) => {
     const existing = JSON.parse(localStorage.getItem("fitcoach_clients") || "[]");
     existing.push({ id: Date.now(), ...clientData });
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
-    try {
-      await fetch("https://script.google.com/macros/s/AKfycbxh-ztZeMuTyBatnuzGjeusL5sjHssd3n2xKvAsStvwRcfpE5KD36afRFDzeRozCQk/exec", {
-        method: "POST",
-        body: JSON.stringify({ id: Date.now(), ...clientData }),
-      });
-    } catch(err) { console.error("Sheet error", err); }
     await new Promise(r => setTimeout(r, 1200));
     setLoading(false);
     setSuccess(true);
@@ -682,9 +662,13 @@ const ClientFormPage = ({ t, lang }) => {
           <div className="field" style={{ gridColumn: "1 / -1" }}>
             <label className="lbl">{t.fullName}</label>
             <input placeholder={t.namePlaceholder} value={form.fullName} onChange={e => f("fullName", e.target.value)} />
-            <label className="lbl">{t.whatsapp}</label>
-            <input placeholder="01xxxxxxxxx" value={form.whatsapp} onChange={e => f("whatsapp", e.target.value)} style={{ direction: "ltr" }} />
             {errors.fullName && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.fullName}</span>}
+          </div>
+          {/* Phone / WhatsApp */}
+          <div className="field" style={{ gridColumn: "1 / -1" }}>
+            <label className="lbl">📱 {isAr ? "رقم الواتساب" : "WhatsApp Number"}</label>
+            <input type="tel" placeholder={isAr ? "مثال: 01012345678" : "e.g. 01012345678"} value={form.phone} onChange={e => f("phone", e.target.value)} style={{ direction: "ltr" }} />
+            {errors.phone && <span style={{ color: "var(--danger)", fontSize: 12, marginTop: 4, display: "block" }}>{errors.phone}</span>}
           </div>
           {/* Age */}
           <div className="field">
@@ -783,7 +767,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
     if (!email || !pass) { setError(t.errRequired); return; }
     setLoading(true);
     await new Promise(r => setTimeout(r, 800));
-    const hash = require("crypto-js").MD5(pass).toString(); if (email === "ehababshakour@gmail.com" && hash === "1f3b7bea74e873e9708fd096c00f5f9a") { onLogin(); }
+    if (email === "ehababshakour@gmail.com" && pass === "ehabelbalad") { onLogin(); }
     else { setError(t.loginError); }
     setLoading(false);
   };
@@ -800,7 +784,7 @@ const CoachLogin = ({ onLogin, t, lang }) => {
       <div className="card">
         <div className="field">
           <label className="lbl">{t.email}</label>
-          <input type="email" placeholder="ehababshakour@gmail.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} style={{ direction: "ltr" }} />
+          <input type="email" placeholder="coach@fitpro.com" value={email} onChange={e => setEmail(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} style={{ direction: "ltr" }} />
         </div>
         <div className="field">
           <label className="lbl">{t.password}</label>
@@ -834,6 +818,14 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setPlans(p);
   }, []);
 
+  const deleteClient = (client) => {
+    if (!window.confirm(isAr ? `هل أنت متأكد من حذف ${client.fullName}؟` : `Are you sure you want to delete ${client.fullName}?`)) return;
+    const updated = clients.filter(c => c.id !== client.id);
+    localStorage.setItem("fitcoach_clients", JSON.stringify(updated));
+    setClients(updated);
+    if (selected?.id === client.id) setSelected(null);
+  };
+
   const savePlan = async (client) => {
     setSaving(true);
     const updated = clients.map(c => c.id === client.id ? { ...c, ...plans[client.id] } : c);
@@ -844,12 +836,18 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
     setSavedId(client.id);
     setTimeout(() => setSavedId(null), 2500);
 
-// واتساب إشعار
-const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
-if (phone) {
-  const msg = encodeURIComponent(`مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n🏋️ خطة التمرين:\n${plans[client.id]?.workoutPlan || ""}\n\n🥗 الخطة الغذائية:\n${plans[client.id]?.dietPlan || ""}\n\n📝 ملاحظات الكوتش:\n${plans[client.id]?.notes || ""}\n\n💪 وفقك الله في رحلتك!`);
-  window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
-}
+    // إشعار واتساب للعميل
+    const phone = client.phone ? client.phone.replace(/[^0-9]/g, "") : "";
+    if (phone) {
+      const msg = encodeURIComponent(
+        `مرحباً ${client.fullName} 💪\n\nتم إعداد خطتك الرياضية!\n\n` +
+        `🏋️ خطة التمرين:\n${plans[client.id]?.workoutPlan || ""}\n\n` +
+        `🥗 الخطة الغذائية:\n${plans[client.id]?.dietPlan || ""}\n\n` +
+        `📝 ملاحظات الكوتش:\n${plans[client.id]?.notes || ""}\n\n` +
+        `💪 وفقك الله في رحلتك! 🔥`
+      );
+      window.open(`https://wa.me/${phone}?text=${msg}`, "_blank");
+    }
   };
 
   const goalColors = { "إنقاص الوزن": "#ff6b2b", "بناء العضلات": "#c8f041", "لياقة عامة": "#4ecdc4", "أداء رياضي": "#a78bfa", "إعادة تشكيل الجسم": "#fb923c", "Weight Loss": "#ff6b2b", "Muscle Gain": "#c8f041", "General Fitness": "#4ecdc4", "Athletic Performance": "#a78bfa", "Body Recomposition": "#fb923c" };
@@ -909,24 +907,38 @@ if (phone) {
           {/* List */}
           <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
             {filtered.map((c, i) => (
-              <div key={c.id} className="card" style={{ position: "relative" }}> style={{
-                cursor: "pointer", animation: `slideIn 0.3s ease ${i * 0.05}s both`,
+              <div key={c.id} className="card" style={{
+                animation: `slideIn 0.3s ease ${i * 0.05}s both`,
                 border: `1px solid ${selected?.id === c.id ? "var(--neon)" : "var(--border)"}`,
                 background: selected?.id === c.id ? "rgba(200,240,65,0.05)" : "var(--card)",
-                transition: "all 0.2s", padding: "16px 20px",
+                transition: "all 0.2s", padding: "16px 20px", position: "relative",
               }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexDirection: isAr ? "row-reverse" : "row" }}>
-                  <div style={{ textAlign: isAr ? "right" : "left" }}>
-                    <div style={{ fontFamily: isAr ? "'Cairo'" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18 }}>{c.fullName}</div>
-                    <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 2 }}>{c.age} • {c.gender} • BMI {c.bmi}</div>
+                {/* زر الحذف */}
+                <button onClick={e => { e.stopPropagation(); deleteClient(c); }} style={{
+                  position: "absolute", top: 10, left: isAr ? 10 : "auto", right: isAr ? "auto" : 10,
+                  background: "rgba(255,68,68,0.1)", border: "1px solid rgba(255,68,68,0.3)",
+                  color: "var(--danger)", borderRadius: 6, padding: "4px 10px",
+                  fontSize: 13, cursor: "pointer", fontFamily: isAr ? "'Cairo'" : "'Barlow', sans-serif",
+                  fontWeight: 700, transition: "all 0.2s",
+                }}
+                  onMouseEnter={e => { e.currentTarget.style.background = "rgba(255,68,68,0.25)"; }}
+                  onMouseLeave={e => { e.currentTarget.style.background = "rgba(255,68,68,0.1)"; }}
+                >🗑 {isAr ? "حذف" : "Delete"}</button>
+
+                <div onClick={() => setSelected(c)} style={{ cursor: "pointer" }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexDirection: isAr ? "row-reverse" : "row" }}>
+                    <div style={{ textAlign: isAr ? "right" : "left" }}>
+                      <div style={{ fontFamily: isAr ? "'Cairo'" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 18 }}>{c.fullName}</div>
+                      <div style={{ color: "var(--muted)", fontSize: 12, marginTop: 2 }}>{c.age} • {c.gender} • BMI {c.bmi}</div>
+                    </div>
+                    <span className="tag" style={{ background: `${goalColors[c.fitnessGoal] || "var(--neon)"}22`, color: goalColors[c.fitnessGoal] || "var(--neon)", border: `1px solid ${goalColors[c.fitnessGoal] || "var(--neon)"}44`, fontSize: 10, marginLeft: isAr ? 0 : 60, marginRight: isAr ? 60 : 0 }}>
+                      {c.fitnessGoal}
+                    </span>
                   </div>
-                  <span className="tag" style={{ background: `${goalColors[c.fitnessGoal] || "var(--neon)"}22`, color: goalColors[c.fitnessGoal] || "var(--neon)", border: `1px solid ${goalColors[c.fitnessGoal] || "var(--neon)"}44`, fontSize: 10 }}>
-                    {c.fitnessGoal}
-                  </span>
-                </div>
-                <div style={{ display: "flex", gap: 8, marginTop: 10, justifyContent: isAr ? "flex-end" : "flex-start" }}>
-                  <span className="tag" style={{ background: "var(--bg3)", color: "var(--muted)", border: "1px solid var(--border)" }}>{c.activityLevel}</span>
-                  {plans[c.id]?.workoutPlan && <span className="tag" style={{ background: "rgba(200,240,65,0.1)", color: "var(--neon)", border: "1px solid rgba(200,240,65,0.2)" }}>{t.planReady}</span>}
+                  <div style={{ display: "flex", gap: 8, marginTop: 10, justifyContent: isAr ? "flex-end" : "flex-start" }}>
+                    <span className="tag" style={{ background: "var(--bg3)", color: "var(--muted)", border: "1px solid var(--border)" }}>{c.activityLevel}</span>
+                    {plans[c.id]?.workoutPlan && <span className="tag" style={{ background: "rgba(200,240,65,0.1)", color: "var(--neon)", border: "1px solid rgba(200,240,65,0.2)" }}>{t.planReady}</span>}
+                  </div>
                 </div>
               </div>
             ))}
@@ -996,15 +1008,40 @@ if (phone) {
 // ─── FOOTER ───────────────────────────────────────────────────────────────────
 const Footer = ({ t, lang }) => (
   <footer style={{ borderTop: "1px solid var(--border)", padding: "32px 5vw", textAlign: "center" }}>
-    <div style={{ fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: lang === "ar" ? 0 : 2, marginBottom: 8 }}>
+    <div style={{ fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif", fontWeight: 800, fontSize: 20, letterSpacing: lang === "ar" ? 0 : 2, marginBottom: 16 }}>
       فيت كوتش <span style={{ color: "var(--neon)" }}>برو</span>
     </div>
-    <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
-    <p style={{ color: "var(--muted)", fontSize: 12, marginTop: 4 }}>تحت إشراف كابتن إيهاب أحمد</p>
-    <div style={{ marginTop: 8, display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-      <img src="/me-logo.jpg" alt="ME Logo" style={{ width: 32, height: 32, borderRadius: "50%", opacity: 0.7 }} />
-      <span style={{ color: "var(--muted)", fontSize: 11 }}>Developed by ME</span>
+    {/* Social Links */}
+    <div style={{ display: "flex", justifyContent: "center", gap: 16, marginBottom: 16, flexWrap: "wrap" }}>
+      <a href="https://wa.me/201063033247" target="_blank" rel="noreferrer" style={{
+        display: "flex", alignItems: "center", gap: 8,
+        background: "#25D366", color: "#fff",
+        padding: "8px 18px", borderRadius: 20,
+        textDecoration: "none", fontSize: 13, fontWeight: 700,
+        fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow', sans-serif",
+        transition: "transform 0.2s, opacity 0.2s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+      >
+        💬 {lang === "ar" ? "تواصل واتساب" : "WhatsApp"}
+      </a>
+      <a href="https://www.instagram.com/ehababshakour" target="_blank" rel="noreferrer" style={{
+        display: "flex", alignItems: "center", gap: 8,
+        background: "linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)",
+        color: "#fff",
+        padding: "8px 18px", borderRadius: 20,
+        textDecoration: "none", fontSize: 13, fontWeight: 700,
+        fontFamily: lang === "ar" ? "'Cairo', sans-serif" : "'Barlow', sans-serif",
+        transition: "opacity 0.2s",
+      }}
+        onMouseEnter={e => e.currentTarget.style.opacity = "0.85"}
+        onMouseLeave={e => e.currentTarget.style.opacity = "1"}
+      >
+        📸 {lang === "ar" ? "انستغرام" : "Instagram"} @ehababshakour
+      </a>
     </div>
+    <p style={{ color: "var(--muted)", fontSize: 13 }}>© {new Date().getFullYear()} FitCoach Pro. {t.rights}</p>
   </footer>
 );
 
@@ -1020,10 +1057,11 @@ export default function App() {
   const renderPage = () => {
     if (page === "home") return <HomePage setPage={setPage} t={t} lang={lang} />;
     if (page === "client") return <ClientFormPage t={t} lang={lang} />;
-    if (page !== "home" && page !== "client" && page !== "coach") return <HomePage setPage={setPage} t={t} lang={lang} />;if (page === "coach") {
+    if (page === "coach") {
       if (!coachLoggedIn) return <CoachLogin onLogin={() => setCoachLoggedIn(true)} t={t} lang={lang} />;
       return <CoachDashboard onLogout={() => { setCoachLoggedIn(false); setPage("home"); }} t={t} lang={lang} />;
     }
+    return <HomePage setPage={setPage} t={t} lang={lang} />;
   };
 
   return (
