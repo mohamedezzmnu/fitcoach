@@ -1020,7 +1020,7 @@ export default function App() {
   const renderPage = () => {
     if (page === "home") return <HomePage setPage={setPage} t={t} lang={lang} />;
     if (page === "client") return <ClientFormPage t={t} lang={lang} />;
-    if (page === "coach") {
+    if (page !== "home" && page !== "client" && page !== "coach") return <HomePage setPage={setPage} t={t} lang={lang} />;if (page === "coach") {
       if (!coachLoggedIn) return <CoachLogin onLogin={() => setCoachLoggedIn(true)} t={t} lang={lang} />;
       return <CoachDashboard onLogout={() => { setCoachLoggedIn(false); setPage("home"); }} t={t} lang={lang} />;
     }
