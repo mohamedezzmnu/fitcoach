@@ -490,6 +490,9 @@ const HomePage = ({ setPage, t, lang }) => {
         }} />
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ animation: "fadeUp 0.7s ease forwards" }}>
+            <p style={{ color: "var(--neon)", fontSize: 14, marginBottom: 10, fontFamily: isAr ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif", letterSpacing: 1 }}>
+              🏅 تحت إشراف كابتن إيهاب أحمد
+            </p>
             <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 20, flexDirection: isAr ? "row-reverse" : "row", justifyContent: isAr ? "flex-end" : "flex-start" }}>
               <div style={{ width: 40, height: 2, background: "var(--neon)" }} />
               <span style={{
