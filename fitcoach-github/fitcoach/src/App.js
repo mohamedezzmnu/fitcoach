@@ -404,11 +404,16 @@ const Navbar = ({ page, setPage, lang, setLang, t }) => {
       <div style={{ maxWidth: 1200, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", height: 68 }}>
         {/* Logo */}
         <div onClick={() => setPage("home")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 10 }}>
-          <div style={{
-            width: 36, height: 36, background: "var(--neon)", borderRadius: 6,
-            display: "flex", alignItems: "center", justifyContent: "center",
-            fontFamily: "'Barlow Condensed', sans-serif", fontWeight: 900, fontSize: 18, color: "#000",
-          }}>FC</div>
+          <img
+  src="/me-logo.jpg"
+  alt="ME Logo"
+  style={{
+    width: 44,
+    height: 44,
+    borderRadius: 8,
+    objectFit: "cover",
+  }}
+/>
           <span style={{
             fontFamily: isAr ? "'Cairo', sans-serif" : "'Barlow Condensed', sans-serif",
             fontWeight: 800, fontSize: isAr ? 18 : 20, letterSpacing: isAr ? 0 : 2,
