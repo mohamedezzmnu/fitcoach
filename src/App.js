@@ -626,7 +626,7 @@ const ClientFormPage = ({ t, lang }) => {
     existing.push({ id: Date.now(), ...clientData });
     localStorage.setItem("fitcoach_clients", JSON.stringify(existing));
     try {
-      await fetch("https://script.google.com/macros/s/AKfycbxLUT7OE7zlyCxuVmsuow4koEa9x0t4bktbSmh3tONJCDI1DqpkK4CNUlZqrrjPiupf/exec", {
+      await fetch("https://script.google.com/macros/s/AKfycbwicOUQUUkEJ-fZ4z4TVo5rJqQclMPqjIiqrYbx8bZC-DKmO-qR9k0gCgznimIY1Glk/exec", {
         method: "POST",
         body: JSON.stringify({ id: Date.now(), ...clientData }),
       });
@@ -816,7 +816,7 @@ const CoachDashboard = ({ onLogout, t, lang }) => {
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    fetch("https://script.google.com/macros/s/AKfycbxLUT7OE7zlyCxuVmsuow4koEa9x0t4bktbSmh3tONJCDI1DqpkK4CNUlZqrrjPiupf/exec")
+    fetch("https://script.google.com/macros/s/AKfycbwicOUQUUkEJ-fZ4z4TVo5rJqQclMPqjIiqrYbx8bZC-DKmO-qR9k0gCgznimIY1Glk/exec")
       .then(r => r.json())
       .then(data => {
         setClients(data);
